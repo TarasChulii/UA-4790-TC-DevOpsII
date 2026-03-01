@@ -1,0 +1,19 @@
+services:
+   db_server:
+       build: db_server/
+       container_name: "DBforReact"
+       working_dir: /usr/local/database/
+       command: json-server ./db.json -p 5000
+       ports:
+           - 5000:5000
+       volumes:
+           - ./db_server/database:/usr/local/database
+   app_server:
+       build: app_server/
+       container_name: "APPforReact"
+       working_dir: /usr/local/app/
+       command: serve -s build
+       ports:
+           - 3000:3000
+       depends_on:
+           - db_server
