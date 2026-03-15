@@ -1,0 +1,49 @@
+name: UA-4790-Topic08-Task90-WorkFlow
+
+on:
+  push:
+    branches:
+      - main
+
+# This section has been added for completion of advanced task
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build_nodejs_application:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node JS 20
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Check that Node is installed
+        run: "node -v"
+
+      - name: Clone code of application from reposirity
+        uses: actions/checkout@v6
+        with:
+          ref: "main"
+
+      - name: Install Dependencies
+        run: 'npm install'
+
+      - name: Start application
+        run: 'node ./index.js &'
+
+      - name: Install curl
+        run: |
+          sudo apt update
+          sudo apt install -y curl
+          sudo apt install -y jq
+
+      - name: Run Tests
+        run: |
+          sudo chmod 755 ./test.sh
+          ./test.sh
