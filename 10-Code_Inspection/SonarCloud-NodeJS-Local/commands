@@ -1,0 +1,16 @@
+#Install dependencies
+npm install
+
+#Install Sonar Scanner
+npm install -g sonar-scanner
+#	or
+npm install -g @sonar/scan
+
+#Install Code coverage plugin
+npm install --save-dev jest
+
+#Code coverage
+npm test -- --coverage
+
+#Run sonnar scaner
+sonar-scanner -Dsonar.token=<SONAR_TOKEN>

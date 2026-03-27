@@ -1,0 +1,25 @@
+#Setup system environment, because Elasticsearch use a lot resource:
+sysctl -w vm.max_map_count=524288
+sysctl -w fs.file-max=131072
+ulimit -n 131072
+ulimit -u 8192
+
+#Start SonqrQube in Docker
+docker-compose -f SonarQube-compose.yml -p sonar up -d
+
+#Install SonarQube scanner for Python
+apt install python3-pip
+apt install python3.12-venv
+python3 -m venv </path/to/venv/>			            #Define Virtual environment
+</path/to/venv/>/bin/pip install pysonar 		        #Install Sonar scaner
+</path/to/venv/>/bin/pip install pytest pytest-cov 	    #Test coverage
+
+#Prepare config for SonarQube
+touch sonar-project.properties
+nano sonar-project.properties
+
+#Run tests
+</path/to/venv/>/bin/pytest --cov=. --cov-report xml
+
+#Run scan
+</path/to/venv/>/bin/pysonar --sonar-token=<SonarQube Token>
