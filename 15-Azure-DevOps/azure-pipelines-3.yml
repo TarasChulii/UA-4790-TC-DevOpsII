@@ -1,0 +1,40 @@
+trigger: 
+- main
+pool: Default
+stages:
+- stage: BuildApp
+  displayName: Build Apps
+  jobs:
+  - job: BuildBackEnd
+    displayName: Build backend app
+    steps:
+    - script: echo installing building tools
+      displayName: install the building tools
+    - script: echo building the backend
+  - job: BuildFrontEnd
+    displayName: Build frontend app
+    steps:
+    - script: echo installing building tools and dependencies
+      displayName: install the building tools
+    - script: echo building the frontend
+- stage: DeployDev
+  displayName: Deploy to Dev Environment
+  dependsOn: [BuildApp]
+  jobs:
+  - job: DeployBackEnd
+    steps:
+    - script: echo deployBE to Dev
+- stage: DeployProd
+  displayName: Deploy to Prod Environment
+  dependsOn: [BuildApp]
+  jobs:
+  - job: DeployBackEnd
+    steps:
+    - script: echo deployBE to Prod
+- stage: DeployDocs
+  displayName: Deploy documentation
+  dependsOn: []
+  jobs:
+  - job: DeployDocs
+    steps:
+    - script: echo deploy DOCS for BE
